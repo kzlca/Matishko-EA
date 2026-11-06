@@ -1,0 +1,16 @@
+# Development sources and local MetaTrader binaries are never committed
+*.mq4
+*.mq5
+*.mqh
+*.mqproj
+*.ex4
+*.ex5
+*.mp4
+
+# Local/editor files
+.DS_Store
+Thumbs.db
+*~
+*.swp
+*.tmp
+*.log
