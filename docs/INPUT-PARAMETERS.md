@@ -2,6 +2,8 @@
 
 The v1.24 MT4 and MT5 builds use the following 14 trading inputs. Values are subject to broker symbol specifications, volume limits, and minimum volume steps.
 
+> **Default-setting notice:** The shipped defaults are reference starting values only. They have not been established through systematic backtesting, parameter optimization, or broker-specific forward testing. They are not a recommended or optimized preset. Select and validate settings for your symbol, timeframe, broker, account conditions, and risk tolerance using the [Strategy Testing and Optimization Guide](STRATEGY-TESTING.md).
+
 | Section | Input | Default | Description |
 |---|---|---:|---|
 | Martingale & grid | `InitialLots` | `0.01` | Starting position volume. |
