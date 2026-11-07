@@ -27,6 +27,11 @@ Matishko EA is intended to manage a basket after a trader or an independent stra
 
 If the initial entry moves against the basket and price later reverses sufficiently, the changed volume-weighted average entry may allow the basket to reach its take-profit target. This is a possible recovery mechanism, not a guarantee. Continued adverse movement can increase exposure and floating losses significantly.
 
+## Panel controls
+
+- **Pause / resume:** Click the `EA is Running` button to pause the EA; it changes to `EA stopped`. Click it again to resume. Pausing does not close open positions. It suspends the EA's own tick-based processing while paused, including new grid entries and updates to its trailing-stop and equity-protection actions. Open positions remain exposed to market risk; pause is not a close-all or protective-exit command.
+- **Reposition buttons:** The `Close All Orders`, direction, and EA state buttons are selectable chart objects. Select and drag each button to move it to a different position on the chart. The panel background and information labels are not moved with the buttons.
+
 ## Strategy Tester and parameter selection
 
 **The shipped input defaults are reference starting values, not backtested or optimized recommendations.** They have not been established through a systematic historical backtest or broker-specific forward test. Do not assume they are suitable for your symbol, timeframe, broker, account size, or risk tolerance.
