@@ -2,42 +2,56 @@
 
 **Martingale-based grid Expert Advisor for MetaTrader 4 and MetaTrader 5**
 
-Matishko EA is an automated trading system built around progressive grid entries and Martingale position sizing. It manages trades as a basket using configurable entry spacing, volume scaling, and a weighted-average take-profit target.
+Matishko EA manages trades as a basket using configurable grid entries, progressive position sizing, and a volume-weighted average take-profit target. It is designed to complement an independent directional strategy; it does not generate or validate market signals.
 
 [![Matishko EA dashboard](screenshots/Screenshot_20261106_004830.png)](screenshots/Screenshot_20261106_004830.png)
 
 ## Downloads
 
-**Latest release: v1.24**
+**Latest release: v1.25**
 
 | Platform | Download |
 |---|---|
-| MetaTrader 4 | [Matishko_EA_v1.24.ex4](https://github.com/kzlca/Matishko-EA/releases/download/v1.24/Matishko_EA_v1.24.ex4) |
-| MetaTrader 5 | [Matishko_EA_v1.24.ex5](https://github.com/kzlca/Matishko-EA/releases/download/v1.24/Matishko_EA_v1.24.ex5) |
+| MetaTrader 4 | [Matishko_EA_v1.25.ex4](https://github.com/kzlca/Matishko-EA/releases/download/v1.25/Matishko_EA_v1.25.ex4) |
+| MetaTrader 5 | [Matishko_EA_v1.25.ex5](https://github.com/kzlca/Matishko-EA/releases/download/v1.25/Matishko_EA_v1.25.ex5) |
 
-See the [release manifest](docs/RELEASE-v1.24.md) for file checksums and build information.
+See the [v1.25 release manifest](docs/RELEASE-v1.25.md) for file sizes and SHA-256 checksums.
 
-## Strategy features
+## What's new in v1.25
 
-- Martingale position sizing with configurable initial volume and lot multiplier.
-- Grid entries with configurable base spacing and distance expansion.
-- Basket take-profit based on the volume-weighted average entry price.
-- Optional per-position trailing stops.
-- Optional equity drawdown protection.
-- Maximum open-position limit and configurable trade identification (Magic Number).
-- On-chart dashboard and controls for monitoring the active basket and direction mode.
+- **Shared trade-direction input:** both MT4 and MT5 now expose `TradeDirection` with `Both`, `Buy Only`, and `Sell Only` options.
+- **Direction-aware grid entries:** the selected mode controls new initial entries and additional grid entries. Existing positions remain managed and can still be closed normally.
+- **Dashboard synchronization:** the chart direction control is initialized from the selected input, so the displayed starting mode matches the configured mode.
+- **Expiry visibility:** both platform dashboards display expiry information consistently. The expiry remains 31 December 2028 at 23:59:59 broker-server time.
+- **Compatibility safeguards:** the MT5 hedging-account requirement and fixed v1.24 expiry validation are retained.
+
+The v1.25 direction-input update does not intentionally change the Martingale sizing, grid-spacing, basket take-profit, trailing-stop, or equity-protection strategy formulas.
+
+## Trade-direction settings
+
+The `TradeDirection` input has the same values and default on both platforms:
+
+| Setting | Value | Behavior for new entries |
+|---|---:|---|
+| `Both` | `0` | BUY and SELL entries may be opened when the strategy conditions are met. |
+| `Buy Only` | `1` | Only BUY initial entries and BUY grid additions are permitted. |
+| `Sell Only` | `2` | Only SELL initial entries and SELL grid additions are permitted. |
+
+The selected input initializes the on-chart direction control. Changing the panel control during a visual test or live session changes the runtime direction; reinitializing the EA restores the input selection. Changing direction does **not** force-close or stop managing positions that are already open.
+
+### MT4 Strategy Tester note
+
+The MT4 Strategy Tester has its own **Common → Positions** restriction. It operates independently of the EA input and is not reflected in the EA dashboard. When you want `TradeDirection` to be the single direction selector, set the tester restriction to **Long & Short**, then select `TradeDirection` under **Inputs**. Otherwise, the tester can further restrict executions while the panel still shows the EA's selected mode.
 
 ## Recommended operating approach
 
-Matishko EA is designed to complement an independent trading strategy rather than replace market analysis. Consider activating it after your own trading method identifies a potential directional opportunity.
+Matishko EA is intended to manage a basket after a trader or an independent strategy identifies a possible directional opportunity.
 
-- **Bullish signal:** select BUY-only mode.
-- **Bearish signal:** select SELL-only mode.
-- **Basket management:** allow the EA to manage grid entries, position sizing, and the basket exit according to the configured inputs.
+- **Bullish directional signal:** select `Buy Only`.
+- **Bearish directional signal:** select `Sell Only`.
+- **No directional restriction:** select `Both`.
 
 If the initial entry moves against the basket and price later reverses sufficiently, the changed volume-weighted average entry may allow the basket to reach its take-profit target. This is a possible recovery mechanism, not a guarantee. Continued adverse movement can increase exposure and floating losses significantly.
-
-Matishko EA does not generate or validate an external directional signal. Signal identification remains the trader's responsibility.
 
 ## Strategy Tester and parameter selection
 
@@ -47,28 +61,33 @@ Use the MetaTrader Strategy Tester to evaluate and optimize your own settings. T
 
 For a Martingale grid, evaluate maximum equity drawdown, margin usage, largest basket exposure, and time spent in floating loss—not just net profit or profit factor.
 
-Read the [Strategy Testing and Optimization Guide](docs/STRATEGY-TESTING.md) before selecting settings.
+Read the [Strategy Testing and Optimization Guide](docs/STRATEGY-TESTING.md) and [Input parameters](docs/INPUT-PARAMETERS.md) before selecting settings.
 
 ### Instruments worth evaluating
 
-Higher-volatility instruments such as **XAUUSD (gold)** may be worth including in your tests. This is a suggestion to evaluate them, not a claim that Matishko EA performs better on gold. Gold is commonly offered by brokers as a metal CFD rather than a Forex currency pair, and its contract size, tick size, tick value, spread, commission, swap, trading hours, and margin requirements can differ substantially from Forex symbols.
+Higher-volatility instruments such as **XAUUSD (gold)** may be worth including in your tests. This is a test candidate, not a claim that the EA performs better on gold. Gold is commonly offered as a metal CFD rather than a Forex currency pair, and its contract size, tick size/value, spread, commission, swap, trading hours, and margin requirements are broker-specific.
 
-The instrument's nominal price being higher does not make it more suitable for a Martingale grid. Larger or faster price swings can create more grid entries and can also increase floating losses and margin usage more quickly. Test the exact broker symbol (including any suffix), use its actual contract specifications, and optimize its settings separately. Do not transfer Forex presets to gold without testing. Require out-of-sample validation and demo forward testing before considering live use.
+A higher nominal quote price does not make an instrument more suitable for a Martingale grid. Larger or faster price swings can trigger more grid entries and increase floating losses and margin usage more quickly. Test the exact broker symbol and its contract specifications, optimize it separately, and require out-of-sample validation and demo forward testing.
 
 ## Platform compatibility
 
-- **MetaTrader 4:** use the .ex4 release asset.
-- **MetaTrader 5:** use the .ex5 release asset and an MT5 **hedging account**. Netting accounts are not supported by this multi-position strategy.
+- **MetaTrader 4:** use the `.ex4` release asset.
+- **MetaTrader 5:** use the `.ex5` release asset and an MT5 **hedging account**. Netting accounts are not supported by this multi-position strategy.
 
 ## Installation
 
-1. Download the binary for your MetaTrader platform from the v1.24 release.
+1. Download the binary for your platform from the [v1.25 release](https://github.com/kzlca/Matishko-EA/releases/tag/v1.25).
 2. In MetaTrader, choose **File → Open Data Folder**.
-3. For MT4, copy the .ex4 file into MQL4/Experts/. For MT5, copy the .ex5 file into MQL5/Experts/ (or a subfolder).
+3. For MT4, copy the `.ex4` file into `MQL4/Experts/`. For MT5, copy the `.ex5` file into `MQL5/Experts/` (or a subfolder).
 4. Refresh the Expert Advisors list in Navigator or restart the terminal.
-5. Attach Matishko EA to a chart, review all inputs, and test on a demo account.
+5. Attach Matishko EA to a chart and review all inputs, including `TradeDirection`.
+6. Test the exact build on a demo account before considering live use.
 
-See the [installation guide](docs/INSTALLATION.md) for platform-specific steps.
+See the [installation guide](docs/INSTALLATION.md).
+
+## Expiry
+
+The v1.25 builds have an operational expiry date of **31 December 2028 (23:59:59 broker-server time)**. New entries are disabled after expiry; management of existing positions remains active.
 
 ## Risk information
 
@@ -76,9 +95,9 @@ Matishko EA uses a Martingale-based grid approach. Position volume can grow geom
 
 Trailing stops, basket take-profit, maximum-position limits, and equity protection do not eliminate market, liquidity, execution, or platform risk. No profitability or capital-protection guarantee is made. Read [Risk and limitations](docs/RISK-AND-LIMITATIONS.md) before use.
 
-## Expiry
+## Proprietary software
 
-The v1.24 build has an operational expiry date of **31 December 2028 (23:59:59 broker-server time)**. New entries are disabled after expiry; management of existing positions remains active.
+Matishko EA is proprietary software. The `.mq4` and `.mq5` source files are not included in this public repository or release assets. Only the compiled platform binaries and user documentation are distributed.
 
 ## Support
 

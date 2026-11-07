@@ -95,3 +95,17 @@ Compare demo execution with the assumptions used in the tester. Do not move to a
 Optimization cannot remove the structural risk of Martingale or grid trading. A sufficiently long adverse market move, gap, spread expansion, margin change, or execution failure can cause substantial losses, including loss of the account balance.
 
 Historical results do not guarantee future performance. The user is responsible for selecting settings, validating the complete directional-signal workflow, and deciding whether the resulting exposure is acceptable.
+
+## 8. Trade-direction testing in v1.25
+
+Both MT4 and MT5 v1.25 expose the same `TradeDirection` input:
+
+- `Both` (`0`) allows the strategy's existing conditions to open new BUY and SELL entries.
+- `Buy Only` (`1`) allows new BUY initial entries and BUY grid additions, while blocking new SELL entries.
+- `Sell Only` (`2`) allows new SELL initial entries and SELL grid additions, while blocking new BUY entries.
+
+The selected input initializes the on-chart direction control. Existing positions are not force-closed when the input or runtime direction changes; the EA continues normal management and exit handling for them. Reinitializing the EA restores the configured input value.
+
+**MT4 tester configuration:** the MT4 Strategy Tester's Common → Positions restriction is separate from `TradeDirection` and is not reflected by the EA panel. Set it to **Long & Short** when you want the EA input to be the sole direction selector. If a narrower tester-level restriction is selected as well, it can further limit actual trades.
+
+For meaningful comparison, run otherwise identical test ranges and costs for `Both`, `Buy Only`, and `Sell Only`. Evaluate maximum equity drawdown, margin usage, largest basket exposure, and time spent in floating loss, not only net profit. Use an unseen out-of-sample period and demo forward testing before considering live use.
