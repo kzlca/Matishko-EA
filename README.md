@@ -2,7 +2,7 @@
 
 **Martingale-based grid Expert Advisor for MetaTrader 4 and MetaTrader 5**
 
-Matishko EA manages trades as a basket using configurable grid entries, progressive position sizing, and a volume-weighted average take-profit target. It is designed to complement an independent directional strategy; it does not generate or validate market signals.
+Matishko EA manages trades as a basket using configurable grid entries, progressive position sizing, and a volume-weighted average take-profit target. It is designed to complement an independent directional strategy;
 
 [![Matishko EA dashboard](screenshots/Screenshot_20261106_004830.png)](screenshots/Screenshot_20261106_004830.png)
 
