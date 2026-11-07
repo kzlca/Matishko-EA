@@ -17,16 +17,6 @@ Matishko EA manages trades as a basket using configurable grid entries, progress
 
 See the [v1.25 release manifest](docs/RELEASE-v1.25.md) for file sizes and SHA-256 checksums.
 
-## What's new in v1.25
-
-- **Shared trade-direction input:** both MT4 and MT5 now expose `TradeDirection` with `Both`, `Buy Only`, and `Sell Only` options.
-- **Direction-aware grid entries:** the selected mode controls new initial entries and additional grid entries. Existing positions remain managed and can still be closed normally.
-- **Dashboard synchronization:** the chart direction control is initialized from the selected input, so the displayed starting mode matches the configured mode.
-- **Expiry visibility:** both platform dashboards display expiry information consistently. The expiry remains 31 December 2028 at 23:59:59 broker-server time.
-- **Compatibility safeguards:** the MT5 hedging-account requirement and fixed v1.24 expiry validation are retained.
-
-The v1.25 direction-input update does not intentionally change the Martingale sizing, grid-spacing, basket take-profit, trailing-stop, or equity-protection strategy formulas.
-
 ## Trade-direction settings
 
 The `TradeDirection` input has the same values and default on both platforms:
