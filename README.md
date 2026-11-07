@@ -17,13 +17,6 @@ Matishko EA manages trades as a basket using configurable grid entries, progress
 
 See the [v1.25 release manifest](docs/RELEASE-v1.25.md) for file sizes and SHA-256 checksums.
 
-## Trade-direction settings
-| Setting | Value | Behavior for new entries |
-|---|---:|---|
-| `Both` | `0` | BUY and SELL entries may be opened when the strategy conditions are met. |
-| `Buy Only` | `1` | Only BUY initial entries and BUY grid additions are permitted. |
-| `Sell Only` | `2` | Only SELL initial entries and SELL grid additions are permitted. |
-
 ## Recommended operating approach
 
 Matishko EA is intended to manage a basket after a trader or an independent strategy identifies a possible directional opportunity.
