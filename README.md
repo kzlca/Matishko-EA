@@ -18,20 +18,11 @@ Matishko EA manages trades as a basket using configurable grid entries, progress
 See the [v1.25 release manifest](docs/RELEASE-v1.25.md) for file sizes and SHA-256 checksums.
 
 ## Trade-direction settings
-
-The `TradeDirection` input has the same values and default on both platforms:
-
 | Setting | Value | Behavior for new entries |
 |---|---:|---|
 | `Both` | `0` | BUY and SELL entries may be opened when the strategy conditions are met. |
 | `Buy Only` | `1` | Only BUY initial entries and BUY grid additions are permitted. |
 | `Sell Only` | `2` | Only SELL initial entries and SELL grid additions are permitted. |
-
-The selected input initializes the on-chart direction control. Changing the panel control during a visual test or live session changes the runtime direction; reinitializing the EA restores the input selection. Changing direction does **not** force-close or stop managing positions that are already open.
-
-### MT4 Strategy Tester note
-
-The MT4 Strategy Tester has its own **Common → Positions** restriction. It operates independently of the EA input and is not reflected in the EA dashboard. When you want `TradeDirection` to be the single direction selector, set the tester restriction to **Long & Short**, then select `TradeDirection` under **Inputs**. Otherwise, the tester can further restrict executions while the panel still shows the EA's selected mode.
 
 ## Recommended operating approach
 
@@ -53,12 +44,6 @@ For a Martingale grid, evaluate maximum equity drawdown, margin usage, largest b
 
 Read the [Strategy Testing and Optimization Guide](docs/STRATEGY-TESTING.md) and [Input parameters](docs/INPUT-PARAMETERS.md) before selecting settings.
 
-### Instruments worth evaluating
-
-Higher-volatility instruments such as **XAUUSD (gold)** may be worth including in your tests. This is a test candidate, not a claim that the EA performs better on gold. Gold is commonly offered as a metal CFD rather than a Forex currency pair, and its contract size, tick size/value, spread, commission, swap, trading hours, and margin requirements are broker-specific.
-
-A higher nominal quote price does not make an instrument more suitable for a Martingale grid. Larger or faster price swings can trigger more grid entries and increase floating losses and margin usage more quickly. Test the exact broker symbol and its contract specifications, optimize it separately, and require out-of-sample validation and demo forward testing.
-
 ## Platform compatibility
 
 - **MetaTrader 4:** use the `.ex4` release asset.
@@ -74,10 +59,6 @@ A higher nominal quote price does not make an instrument more suitable for a Mar
 6. Test the exact build on a demo account before considering live use.
 
 See the [installation guide](docs/INSTALLATION.md).
-
-## Expiry
-
-The v1.25 builds have an operational expiry date of **31 December 2028 (23:59:59 broker-server time)**. New entries are disabled after expiry; management of existing positions remains active.
 
 ## Risk information
 
