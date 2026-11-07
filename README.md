@@ -23,7 +23,7 @@ Matishko EA is intended to manage a basket after a trader or an independent stra
 
 - **Bullish directional signal:** select `Buy Only`.
 - **Bearish directional signal:** select `Sell Only`.
-- **No directional restriction:** select `Both`.
+- **No directional restriction:** Pause `EA`.
 
 If the initial entry moves against the basket and price later reverses sufficiently, the changed volume-weighted average entry may allow the basket to reach its take-profit target. This is a possible recovery mechanism, not a guarantee. Continued adverse movement can increase exposure and floating losses significantly.
 
