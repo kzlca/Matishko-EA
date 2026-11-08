@@ -411,7 +411,7 @@ The internal pause state is reset when the EA is initialized again.
 
 The three buttons are selectable chart objects and can be moved individually.
 
-Select a button and drag it to the desired chart position. The background rectangle and information labels are not selectable, and the dashboard is not moved as one single object.
+Select a button and drag it to the desired chart position. The background rectangle and information labels are not selectable, you need to double click corner of each button to select it. then move it by holding the corner to designer position based on your screen size.
 
 ### 9. Strategy Tester tutorial
 
